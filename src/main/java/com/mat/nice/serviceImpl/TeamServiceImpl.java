@@ -9,6 +9,8 @@ import com.mat.nice.repositrory.PlayerRepository;
 import com.mat.nice.repositrory.TeamRepository;
 import com.mat.nice.service.TeamService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,8 @@ import java.util.Optional;
 @Slf4j
 public class TeamServiceImpl implements TeamService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TeamServiceImpl.class);
+
     @Autowired
     TeamRepository teamRepository;
 
@@ -33,12 +37,17 @@ public class TeamServiceImpl implements TeamService {
     @Transactional
     @Override
     public Page<TeamResponseDto> getTeams(Pageable pageable) {
+        logger.info("TeamServiceImpl::getTeams : get all teams");
+
         return teamRepository.findAll(pageable)
                 .map(TeamEntity::toTeamResponseDto);
     }
 
     @Override
     public TeamResponseDto addTeam(TeamRequestDto teamRequestDto) {
+
+        logger.info("TeamServiceImpl::addTeam : get team");
+
         List<PlayerEntity> playerEntities = new ArrayList<>();
         if ( teamRequestDto.getPlayers()!=null && !teamRequestDto.getPlayers().isEmpty() ){
 

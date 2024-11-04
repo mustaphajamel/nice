@@ -10,9 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.*;
+
+
 @Service
 @Slf4j
 public class PlayerServiceImpl implements PlayerService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
     @Autowired
     PlayerRepository playerRepository;
@@ -24,6 +29,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerResponseDto getPlayer(Long id) {
+        logger.info("PlayerServiceImpl::getPlayer : getPlayer details by ID");
+
         PlayerEntity playerEntity = playerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Player with ID " + id + " not found"));
 
